@@ -25,10 +25,7 @@ body {
     padding: 25px;
 }
 
-.input-buscar {
-    opacity: .79;
-}
-.select{
+.input-busca, .select{
     opacity: .79;
 }
 
@@ -85,6 +82,8 @@ body {
     border: 1px solid #fefefefe;
 }
 
+
+
 .btn-modal button {
     position: relative;
     top: -55%;
@@ -100,9 +99,12 @@ body {
     position: relative;
     width: 100%;
     height: 150px;
-    border-top-left-radius: 20px;
-    border-top-right-radius: 20px;
+    border-radius: 20px;
     background-image: url(../img/background2.jpg) ;
+}
+.modal-body{
+    position: relative;
+    top: 15px;
 }
 
 .img-character{
