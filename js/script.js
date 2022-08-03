@@ -1,5 +1,5 @@
 class Personaje {
-  constructor(id,name, image,species,gender,height,mass) {
+  constructor(id,name,image,species,gender,height,mass,homeworld) {
     this.id = id;
     this.name = name;
     this.image = image;
@@ -7,15 +7,14 @@ class Personaje {
     this.gender = gender;
     this.height = height;
     this.mass = mass;
+    this.homeworld = homeworld;
   }
   obtenerId() {
     return this.id;
   }
-
   obtenerNombre() {
     return this.name;
   }
-
   obtenerFoto() {
     return this.image;
   }
@@ -29,8 +28,12 @@ class Personaje {
     return this.height;
   }
   obtenerMass(){
-    this.mass;
+    return this.mass;
   }
+  obtenerHomeworld(){
+    return this.homeworld;
+  }
+  
 }
 
 let personajes = [];
@@ -57,7 +60,7 @@ function buildCharacterCard(id,nombre,foto) {
 
 }
 
-function modal(id,nombre,foto,species,gender,height,mass){
+function modal(id,nombre,foto,species,gender,height,mass,homeworld){
   return `
   <!-- Modal -->
   <div class="modal fade" id="exampleModal${id}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -72,6 +75,7 @@ function modal(id,nombre,foto,species,gender,height,mass){
         <p class="fw-bold">${nombre}</p>
         <p class="fw-bold">Especie: ${species}</p>
         <p class="fw-bold">Genero: ${gender}</p>
+        <p class="fw-bold">Mundo natal: ${homeworld}</p>
         <p class="fw-bold">Altura: ${height} mts</p>
         <p class="fw-bold">Peso: ${mass} kg</p>
         </div>
@@ -90,7 +94,7 @@ async function getPersonajes() {
   const response = await fetch(url);
   const data = await response.json();
   data.forEach(datum => {
-    let nuevoPersonaje = new Personaje(datum.id,datum.name, datum.image,datum.species,datum.gender,datum.height,datum.mass)
+    let nuevoPersonaje = new Personaje(datum.id,datum.name,datum.image,datum.species,datum.gender,datum.height,datum.mass,datum.homeworld)
     personajes.push(nuevoPersonaje);
   });
 
@@ -109,6 +113,7 @@ async function getPersonajes() {
       personaje.obtenerGender(),
       personaje.obtenerHeight(),
       personaje.obtenerMass(),
+      personaje.obtenerHomeworld(),
     )
   })
 }
@@ -140,6 +145,7 @@ function llamarBusqueda() {
           personajeFiltrado.obtenerGender(),
           personajeFiltrado.obtenerHeight(),
           personajeFiltrado.obtenerMass(),
+          personajeFiltrado.obtenerHomeworld(),
         )
       })
     }
@@ -165,6 +171,7 @@ function ordenarPersonajes() {
         personajeOrdenado.obtenerGender(),
         personajeOrdenado.obtenerHeight(),
         personajeOrdenado.obtenerMass(),
+        personajeOrdenado.obtenerHomeworld(),
       )
     })
   }
