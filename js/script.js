@@ -1,5 +1,6 @@
 class Personaje {
-  constructor(name, image,species,gender,height,mass) {
+  constructor(id,name, image,species,gender,height,mass) {
+    this.id = id;
     this.name = name;
     this.image = image;
     this.species = species;
@@ -7,6 +8,10 @@ class Personaje {
     this.height = height;
     this.mass = mass;
   }
+  obtenerId() {
+    return this.id;
+  }
+
   obtenerNombre() {
     return this.name;
   }
@@ -31,7 +36,7 @@ class Personaje {
 let personajes = [];
 let elemento = document.getElementById("personajes-wrapper");
 
-function buildCharacterCard(nombre,foto) {
+function buildCharacterCard(id,nombre,foto) {
   return `
   <div class="column-wrapper">
         <div class="card-personaje row text-center bg-dark"> 
@@ -42,7 +47,7 @@ function buildCharacterCard(nombre,foto) {
               <p class="tpersonaje">${nombre}</p>
             </div>
             <div class="btn-modal">
-              <button data-bs-toggle="modal" data-bs-target="#exampleModal" class="fw-bold btn btn-outline-light" type="button">
+              <button data-bs-toggle="modal" data-bs-target="#exampleModal${id}" class="fw-bold btn btn-outline-light" type="button">
                 Ver más...
               </button>
             </div>
@@ -52,10 +57,10 @@ function buildCharacterCard(nombre,foto) {
 
 }
 
-function modal(nombre,foto,species,gender,height,mass){
+function modal(id,nombre,foto,species,gender,height,mass){
   return `
   <!-- Modal -->
-  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal fade" id="exampleModal${id}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
@@ -85,17 +90,19 @@ async function getPersonajes() {
   const response = await fetch(url);
   const data = await response.json();
   data.forEach(datum => {
-    let nuevoPersonaje = new Personaje(datum.name, datum.image,datum.species,datum.gender,datum.height,datum.mass)
+    let nuevoPersonaje = new Personaje(datum.id,datum.name, datum.image,datum.species,datum.gender,datum.height,datum.mass)
     personajes.push(nuevoPersonaje);
   });
 
   personajes.forEach((personaje) => {
 
     elemento.innerHTML += buildCharacterCard(
+      personaje.obtenerId(),
       personaje.obtenerNombre(),
       personaje.obtenerFoto(),
     )
     elemento.innerHTML += modal(
+      personaje.obtenerId(),
       personaje.obtenerNombre(),
       personaje.obtenerFoto(),
       personaje.obtenerSpecies(),
@@ -121,10 +128,12 @@ function llamarBusqueda() {
       elemento.innerHTML = null
       personajesFiltrados.forEach((personajeFiltrado) => {
         elemento.innerHTML += buildCharacterCard(
+          personajeFiltrado.obtenerId(),
           personajeFiltrado.obtenerNombre(),
           personajeFiltrado.obtenerFoto(),
         )
         elemento.innerHTML += modal(
+          personajeFiltrado.obtenerId(),
           personajeFiltrado.obtenerNombre(),
           personajeFiltrado.obtenerFoto(),
           personajeFiltrado.obtenerSpecies(),
@@ -144,10 +153,12 @@ function ordenarPersonajes() {
     elemento.innerHTML = null
     personajesOrdenados.forEach((personajeOrdenado) => {
       elemento.innerHTML += buildCharacterCard(
+        personajeOrdenado.obtenerId(),
         personajeOrdenado.obtenerNombre(),
         personajeOrdenado.obtenerFoto(),
       )
       elemento.innerHTML += modal(
+        personajeOrdenado.obtenerId(),
         personajeOrdenado.obtenerNombre(),
         personajeOrdenado.obtenerFoto(),
         personajeOrdenado.obtenerSpecies(),
